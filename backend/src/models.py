@@ -18,6 +18,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
 from src.config import settings
 
 
@@ -26,16 +27,19 @@ class Base(DeclarativeBase):
         Uuid,
         primary_key=True,
         nullable=False,
+        index=True,
         default=uuid4,
     )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
+        index=True,
         server_default=func.now(),
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
+        index=True,
         server_default=func.now(),
         onupdate=func.now(),
     )
@@ -50,15 +54,16 @@ class AccessMethodEnum(str, enum.Enum):
 class Resident(Base):
     __tablename__ = "residents"
 
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
     phone: Mapped[str] = mapped_column(String(20), nullable=False)
-    room_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    room_number: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
     rfid_code: Mapped[str] = mapped_column(
-        String(60),
+        String(20),
         unique=True,
         nullable=False,
+        index=True,
     )
-    pin: Mapped[str] = mapped_column(String(60))
+    pin: Mapped[str] = mapped_column(String(8), nullable=False)
 
     # Relationships
     face_embeddings: Mapped[list[FaceEmbedding]] = relationship(
@@ -74,6 +79,7 @@ class FaceEmbedding(Base):
         Uuid,
         ForeignKey("residents.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     image_path: Mapped[str] = mapped_column(String(100), nullable=False)
     embedding: Mapped[list[float]] = mapped_column(
@@ -91,11 +97,14 @@ class AccessLog(Base):
         Uuid,
         ForeignKey("residents.id", ondelete="SET NULL"),
         nullable=True,
+        index=True,
     )
     method: Mapped[AccessMethodEnum] = mapped_column(
-        Enum(AccessMethodEnum, name="access_method_enum"), nullable=False
+        Enum(AccessMethodEnum, name="access_method_enum"),
+        nullable=False,
+        index=True,
     )
-    granted: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    granted: Mapped[bool] = mapped_column(Boolean, nullable=False, index=True)
     similarity: Mapped[Decimal] = mapped_column(Numeric(5, 2), nullable=False)
     suspicious_image_path: Mapped[str] = mapped_column(String(100), nullable=True)
 

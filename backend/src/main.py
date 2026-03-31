@@ -3,8 +3,10 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from reqtrace import ReqTrace, ReqTraceFilter, ReqTraceMiddleware
+
 from src.config import settings
 from src.database import check_db, close_db, init_db
+from src.routers.residents import router as residents_router
 
 
 @asynccontextmanager
@@ -43,3 +45,6 @@ def health_check() -> dict[str, str]:
         "status": "ok" if db_ok else "degraded",
         "database": "connected" if db_ok else "disconnected",
     }
+
+
+app.include_router(residents_router)
