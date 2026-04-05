@@ -1,7 +1,10 @@
 from datetime import datetime
+from decimal import Decimal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
+
+from src.models import AccessMethodEnum
 
 
 class CreateResidentRequest(BaseModel):
@@ -61,3 +64,19 @@ class BulkFaceEmbeddingResponse(BaseModel):
     total_success: int
     total_failed: int
     results: list[FaceEmbeddingResult]
+
+
+class AccessLogResponse(BaseModel):
+    """Schema untuk response data log akses."""
+
+    id: UUID
+    resident_id: UUID | None = None
+    method: AccessMethodEnum
+    granted: bool
+    similarity: Decimal
+    suspicious_image_path: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+    # Informasi penghuni terkait (jika tersedia)
+    resident: ResidentResponse | None = None

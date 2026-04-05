@@ -1,6 +1,5 @@
 fastapi[standard]
 uvicorn
-reqtrace-py
 pydantic-settings
 psycopg[binary]
 pgvector

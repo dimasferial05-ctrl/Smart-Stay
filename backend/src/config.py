@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     deepface_embedding_size: int = 512
     deepface_threshold: float = 0.60
 
+    # ESP32-CAM
+    esp32_cam_url: str = "http://esp32-cam/capture"
+
     # File Upload
     max_file_size_mb: int = 5
     allowed_extensions: str = "jpg,jpeg,png,webp"

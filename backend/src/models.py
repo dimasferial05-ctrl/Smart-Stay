@@ -23,6 +23,12 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from src.config import settings
 
 
+class AccessMethodEnum(str, enum.Enum):
+    FACE_RECOGNITION = "FACE_RECOGNITION"
+    RFID = "RFID"
+    PIN = "PIN"
+
+
 class Base(DeclarativeBase):
     id: Mapped[UUID] = mapped_column(
         Uuid,
@@ -44,12 +50,6 @@ class Base(DeclarativeBase):
         server_default=func.now(),
         onupdate=func.now(),
     )
-
-
-class AccessMethodEnum(str, enum.Enum):
-    FACE_RECOGNITION = "face_recognition"
-    RFID = "rfid"
-    PIN = "pin"
 
 
 class Resident(Base):

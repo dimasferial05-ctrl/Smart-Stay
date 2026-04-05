@@ -8,20 +8,27 @@ from sqlalchemy.orm import Session, sessionmaker
 from src.config import settings
 from src.models import Base
 
-engine: Engine = create_engine(url=settings.database_url)
+engine: Engine = create_engine(
+    url=settings.database_url,
+    pool_pre_ping=True,
+    pool_recycle=3600,
+)
+
 SessionLocal: sessionmaker[Session] = sessionmaker(
     bind=engine,
     autocommit=False,
     autoflush=False,
+    expire_on_commit=False,  # Mencegah error saat akses atribut setelah commit
 )
 
 
 def get_session() -> Generator[Session, None, None]:
+    """
+    Mengelola lifecycle session.
+    Context manager otomatis menangani penutupan session.
+    """
     with SessionLocal() as session:
-        try:
-            yield session
-        finally:
-            session.close()
+        yield session
 
 
 def init_db() -> None:
@@ -36,6 +43,7 @@ def check_db() -> bool:
     try:
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
+            conn.commit()
         return True
     except Exception:
         return False

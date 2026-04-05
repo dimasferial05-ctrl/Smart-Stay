@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Sequence
 from uuid import UUID
 
@@ -5,7 +6,7 @@ from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
 from src.database import DBSession
-from src.models import Resident
+from src.models import FaceEmbedding, Resident
 from src.schemas import CreateResidentRequest, ResidentResponse, UpdateResidentRequest
 
 router: APIRouter = APIRouter(
@@ -99,7 +100,7 @@ async def update_resident(
 
 @router.delete(
     path="/{resident_id}",
-    description="Endpoint untuk menghapus penghuni berdasarkan ID.",
+    description="Endpoint untuk menghapus penghuni berdasarkan ID beserta seluruh data embedding dan file gambar terkait.",
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_resident(db: DBSession, resident_id: UUID) -> None:
@@ -113,6 +114,19 @@ async def delete_resident(db: DBSession, resident_id: UUID) -> None:
             detail="Penghuni tidak ditemukan.",
         )
 
+    stmt = select(FaceEmbedding).where(FaceEmbedding.resident_id == resident_id)
+    embeddings = db.execute(stmt).scalars().all()
+    image_paths: list[str] = [e.image_path for e in embeddings]
+
     db.delete(resident)
     db.commit()
+
+    for path_str in image_paths:
+        try:
+            file_path: Path = Path(path_str)
+            if file_path.exists():
+                file_path.unlink()
+        except Exception as e:
+            print(f"Gagal menghapus file fisik {path_str}: {e}")
+
     return None
