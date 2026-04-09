@@ -1,15 +1,18 @@
-import ResidentFeature from "@/features/resident";
+import { ResidentFeature } from "@/features/resident";
+import { getResidents } from "@/features/resident/api";
 import type { Route } from "./+types/residents";
+
+export async function loader({}: Route.LoaderArgs) {
+  return await getResidents();
+}
 
 export const meta = ({}: Route.MetaArgs) => {
   return [
-    { title: "Resident" },
-    { name: "description", content: "Resident management" },
+    { title: "Data Penghuni | Bumi Rafka Kost" },
+    { name: "description", content: "Manajemen data penghuni kost" },
   ];
 };
 
-const Resident = () => {
+export default function ResidentsRoute() {
   return <ResidentFeature />;
-};
-
-export default Resident;
+}
