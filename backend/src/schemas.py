@@ -80,3 +80,13 @@ class AccessLogResponse(BaseModel):
 
     # Informasi penghuni terkait (jika tersedia)
     resident: ResidentResponse | None = None
+
+
+class DashboardStatsResponse(BaseModel):
+    """Schema untuk response data statistik dashboard."""
+
+    total_residents: int
+    total_access_today: int
+    total_valid_access: int
+    total_invalid_access: int
+    access_logs: list[AccessLogResponse]
