@@ -39,6 +39,6 @@ export interface AccessLog extends Base {
   method: AccessMethod;
   granted: boolean;
   similarity: number;
-  suspicious_image_path: string | null;
+  image_path: string | null;
   resident?: Resident | null;
 }

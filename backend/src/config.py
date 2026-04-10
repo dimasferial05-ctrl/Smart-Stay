@@ -39,11 +39,14 @@ class Settings(BaseSettings):
     allowed_extensions: str = "jpg,jpeg,png,webp"
 
     # Face Embedding File Upload
-    face_embedding_upload_dir: Path = Path("uploads/face_embedding_images")
+    face_embedding_upload_dir: Path = Path("uploads/face-embedding-images")
+
+    # Face Verification File Upload
+    face_verification_upload_dir: Path = Path("uploads/face-verification-images")
 
     # Suspicious Verification File Upload
     suspicious_verification_upload_dir: Path = Path(
-        "uploads/suspicious_verification_images"
+        "uploads/suspicious-verification-images"
     )
 
 

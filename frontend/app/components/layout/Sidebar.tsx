@@ -25,7 +25,7 @@ export const Sidebar: FC<SidebarProps> = ({
   return (
     <aside
       className={cn(
-        "fixed lg:static inset-y-0 left-0 z-30 w-60 bg-[#4A9174] flex flex-col h-full transition-transform duration-300",
+        "fixed lg:static inset-y-0 left-0 z-30 w-60 bg-[#000080] flex flex-col h-full transition-transform duration-300",
         isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       )}
     >

@@ -24,7 +24,7 @@ export const NavLink: FC<NavLinkProps> = ({
       onClick={onClick}
       className={cn(
         "flex items-center gap-3 px-[10px] py-[5px] rounded h-[35px] transition-colors",
-        isActive ? "bg-[#545454]" : "hover:bg-white/10",
+        isActive ? "bg-[#4b4bff]" : "hover:bg-white/20",
       )}
     >
       <Icon size={25} className="text-white flex-shrink-0" />

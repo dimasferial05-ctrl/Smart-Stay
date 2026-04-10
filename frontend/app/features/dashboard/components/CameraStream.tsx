@@ -9,13 +9,11 @@ interface CameraStreamProps {
 export const CameraStream: FC<CameraStreamProps> = ({
   streamUrl = import.meta.env.VITE_ESP32_CAM_STREAM_URL,
 }) => {
-  // Inisialisasi awal selalu true untuk menghindari error SSR
-  const [isLive, setIsLive] = useState<boolean>(true);
+  const [isLive, setIsLive] = useState<boolean | null>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Ambil status dari localStorage setelah komponen dimuat di browser (Hydration)
   useEffect(() => {
     const saved = localStorage.getItem("camera_live_status");
     if (saved !== null) {
@@ -23,7 +21,6 @@ export const CameraStream: FC<CameraStreamProps> = ({
     }
   }, []);
 
-  // Simpan ke localStorage setiap kali status isLive berubah
   useEffect(() => {
     localStorage.setItem("camera_live_status", JSON.stringify(isLive));
   }, [isLive]);

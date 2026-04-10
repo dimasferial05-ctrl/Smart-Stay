@@ -74,7 +74,7 @@ class AccessLogResponse(BaseModel):
     method: AccessMethodEnum
     granted: bool
     similarity: Decimal
-    suspicious_image_path: str | None = None
+    image_path: str | None = None
     created_at: datetime
     updated_at: datetime
 

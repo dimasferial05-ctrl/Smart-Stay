@@ -117,7 +117,7 @@ class AccessLog(Base):
     )
     granted: Mapped[bool] = mapped_column(Boolean, nullable=False, index=True)
     similarity: Mapped[Decimal] = mapped_column(Numeric(5, 2), nullable=False)
-    suspicious_image_path: Mapped[str] = mapped_column(Text, nullable=True)
+    image_path: Mapped[str] = mapped_column(Text, nullable=True)
 
     # Relationships
     resident: Mapped[Resident | None] = relationship(back_populates="access_logs")

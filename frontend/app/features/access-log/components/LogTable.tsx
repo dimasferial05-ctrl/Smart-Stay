@@ -29,7 +29,7 @@ export const LogTable: FC<{ logs: AccessLog[] }> = ({ logs }) => {
             <th className="pb-4 font-semibold">Metode</th>
             <th className="pb-4 font-semibold">Status</th>
             <th className="pb-4 font-semibold">Akurasi</th>
-            <th className="pb-4 font-semibold">Foto Mencurigakan</th>
+            <th className="pb-4 font-semibold">Foto</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
@@ -102,10 +102,10 @@ export const LogTable: FC<{ logs: AccessLog[] }> = ({ logs }) => {
                     )}
                   </td>
                   <td className="py-4">
-                    {log.suspicious_image_path ? (
+                    {log.image_path ? (
                       <div className="relative group w-12 h-12">
                         <img
-                          src={`${API_BASE_URL}/${log.suspicious_image_path}`}
+                          src={`${API_BASE_URL}/${log.image_path}`}
                           alt="Suspicious Log"
                           className="w-12 h-12 object-cover rounded-lg border border-slate-200 shadow-sm transition-transform group-hover:scale-125 group-hover:z-10 cursor-zoom-in"
                         />
