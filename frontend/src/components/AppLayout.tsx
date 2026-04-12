@@ -137,7 +137,7 @@ export function AppLayout() {
                 className="w-7 h-7 rounded-full object-cover"
               />
               <span className="hidden sm:block font-['Kumbh_Sans'] font-semibold text-sm text-[#574242]">
-                John Deo
+                Admin
               </span>
               <ChevronDown size={16} className="text-black hidden sm:block" />
             </div>

@@ -83,6 +83,29 @@ def create_log(log: schemas.AccessLogBase, db: Session = Depends(get_db)):
     db.refresh(db_log)
     return db_log
 
+# --- ENDPOINT NOTIFIKASI ---
+@app.get("/api/notifications")
+def get_notifications(db: Session = Depends(get_db)):
+    # Ambil 3 log terakhir, diurutkan dari yang terbaru
+    recent_logs = db.query(models.AccessLog).order_by(models.AccessLog.created_at.desc()).limit(3).all()
+    
+    notifications = []
+    
+    # Cek apakah ada minimal 3 log, dan KETIGANYA berstatus "gagal"
+    if len(recent_logs) == 3 and all(log.status == "gagal" for log in recent_logs):
+        # Ambil waktu kejadian terakhir
+        last_time = recent_logs[0].created_at.strftime("%H:%M:%S")
+        
+        notifications.append({
+            "id": 1,
+            "title": "Peringatan Keamanan!",
+            "message": f"Terdapat 3 kali percobaan akses gagal berturut-turut pada gerbang utama. (Terakhir: {last_time})",
+            "type": "warning",
+            "time": last_time
+        })
+        
+    return notifications
+
 # --- ENDPOINT DASHBOARD ---
 @app.get("/api/dashboard", response_model=schemas.DashboardResponse)
 def get_dashboard_summary(db: Session = Depends(get_db)):
