@@ -9,7 +9,7 @@ interface CameraStreamProps {
 export const CameraStream: FC<CameraStreamProps> = ({
   streamUrl = import.meta.env.VITE_ESP32_CAM_STREAM_URL,
 }) => {
-  const [isLive, setIsLive] = useState<boolean | null>(false);
+  const [isLive, setIsLive] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const imgRef = useRef<HTMLImageElement>(null);
