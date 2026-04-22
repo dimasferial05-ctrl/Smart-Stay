@@ -1,0 +1,26 @@
+# General
+.DS_Store
+.env
+.vscode/
+.idea/
+
+
+# Backend (Python)
+backend/.venv/
+backend/**/__pycache__/
+backend/*.py[cod]
+backend/logs/*
+backend/uploads/*
+
+
+# Frontend (React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/.react-router/
+
+
+# Firmware
+firmware/.pio/
+firmware/build/

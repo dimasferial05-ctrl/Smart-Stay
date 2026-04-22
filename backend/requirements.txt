@@ -1,0 +1,10 @@
+fastapi[standard]
+uvicorn
+pydantic-settings
+psycopg[binary]
+pgvector
+SQLAlchemy
+deepface
+tf-keras
+python-multipart
+logfire[fastapi]
